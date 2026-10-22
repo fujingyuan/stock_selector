@@ -11,34 +11,13 @@ page_header(
 
 from hikyuudata import em_finance, importer  # noqa: E402  （顶部 import hikyuu 触发横幅，放页面渲染后）
 
-# ---- 数据状态（先取值，供 hero 状态徽标与下方磁贴共用） ----
+# ---- 数据状态（供下方磁贴使用） ----
 status = importer.data_status()
 fin_count = len(em_finance.load_all())
 fin_date = em_finance.data_date()
 stock_n = status["stock_count"] or 0
 weight_n = status["tables"].get("stockweight", 0) or 0
 ready = bool(status["db_exists"] and stock_n)
-state_chip = (
-    '<span class="ok-chip">● 数据就绪</span>' if ready
-    else '<span class="warn-chip">● 待导入数据</span>'
-)
-
-# ---- Hero ----
-st.markdown(
-    f"""
-    <div class="hero">
-      <h1>📈 A 股量化选股工作台</h1>
-      <p>全市场技术指标扫描、多因子条件组合、独立卖出规则回测与参数寻优，数据全部本地化存储。</p>
-      <div class="chips">
-        <span class="chip">🇨🇳 沪深京 A 股全市场</span>
-        <span class="chip">🧭 技术面 × 基本面双筛选</span>
-        <span class="chip">🧪 回测 · 绩效 · 参数寻优</span>
-        <span class="chip">{state_chip}</span>
-      </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
 
 # ---- 功能导航卡片 ----
 st.markdown("#### 功能导航")

@@ -1,0 +1,5 @@
+[theme]
+# 表格统一配色（st.dataframe 的表头由 canvas 绘制，只能用主题项控制）
+dataframeBorderColor = "#dfe7f0"
+dataframeHeaderBackgroundColor = "#e9eff7"
+dataframeHeaderTextColor = "#24415e"

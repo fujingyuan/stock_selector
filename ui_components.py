@@ -90,7 +90,7 @@ html, body, [class*="css"] { font-family: -apple-system, "PingFang SC", "Microso
 [data-testid="stSidebar"] [data-testid="stSidebarUserContent"] { min-width: 0; }
 
 /* 主区排版：紧凑密度（专业终端感） */
-.block-container { padding-top: 4.4rem; padding-bottom: 2rem; max-width: 1280px; }
+.block-container { padding-top: .35rem; padding-bottom: 2rem; max-width: 1280px; }
 [data-testid="stVerticalBlock"] { gap: .55rem; }
 [data-testid="stHorizontalBlock"] { gap: .7rem; }
 h1, h2, h3 { color: var(--ink); letter-spacing: .2px; }
@@ -149,17 +149,6 @@ h1, h2, h3 { color: var(--ink); letter-spacing: .2px; }
 [data-baseweb="input"]:focus-within, [data-baseweb="select"]:focus-within { border-color: var(--navy-600) !important; }
 
 /* 首页组件 */
-.hero {
-  background: linear-gradient(120deg, var(--navy-900) 0%, var(--navy-700) 55%, #205583 100%);
-  border-radius: 18px; padding: 34px 38px; color: #eef4fa; position: relative; overflow: hidden;
-  box-shadow: 0 10px 30px rgba(11,31,51,.25);
-}
-.hero::after { content:""; position:absolute; right:-70px; top:-70px; width:260px; height:260px;
-  border-radius:50%; background: radial-gradient(circle, rgba(224,82,82,.35), transparent 65%); }
-.hero::before { content:""; position:absolute; right:80px; bottom:-90px; width:220px; height:220px;
-  border-radius:50%; background: radial-gradient(circle, rgba(201,161,92,.28), transparent 65%); }
-.hero h1 { color:#fff; font-size:30px; margin:0 0 8px; }
-.hero p { color:#c3d2e0; margin:0; font-size:14.5px; }
 .chips { display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; }
 .chip { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18);
   padding:5px 14px; border-radius:999px; font-size:12.5px; color:#e8eef5; }
@@ -191,10 +180,6 @@ h1, h2, h3 { color: var(--ink); letter-spacing: .2px; }
 .step .tx span { font-size:12px; color:var(--muted); }
 .step .arrow { margin: 0 18px; color:#c3ccd6; font-size:18px; }
 
-.ok-chip, .warn-chip { display:inline-block; padding:3px 12px; border-radius:999px; font-size:12px; font-weight:600; }
-.ok-chip { background:#e7f4ee; color:#1f7a4d; border:1px solid #bfe3d0; }
-.warn-chip { background:#fdf3e7; color:#a3660a; border:1px solid #f2d9b0; }
-
 /* 新手引导条 */
 .guide {
   background: linear-gradient(90deg, #eef4fb, #f7f9fc); border:1px solid #dbe6f2;
@@ -217,23 +202,29 @@ h1, h2, h3 { color: var(--ink); letter-spacing: .2px; }
 .preset-chip { background:#fff; border:1px solid var(--line); border-radius:999px;
   padding: 4px 12px; font-size:12px; color:var(--navy-700); }
 
-/* 顶部状态条：玻璃质感，左边缘与内容区对齐（随侧边栏展开/折叠切换 left） */
-[data-testid="stHeader"] { min-height: 0; }
+/* 表格：圆角卡片容器（表头配色在 .streamlit/config.toml 中统一设置） */
+[data-testid="stDataFrame"] {
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(11,31,51,.04), 0 10px 28px -20px rgba(11,31,51,.26);
+}
+[data-testid="stDataFrame"] > div { border-radius: 12px; }
+[data-testid="stDataFrame"] [data-testid="stElementToolbar"] { border-radius: 8px; }
+
+/* 顶部状态条：普通文档流内布局（不覆盖内容、不覆盖侧边栏），随内容滚动 */
 .app-topbar {
-  position: fixed; top: 0; left: 88px; right: 0; height: 52px; z-index: 999980;
-  width: min(1280px, 100%); margin: 0 auto;
-  display: flex; align-items: center; gap: 14px; padding: 0 24px;
+  position: relative; z-index: 1;
+  display: flex; align-items: center; gap: 14px;
+  height: 48px; margin: 0 0 10px; padding: 0 16px;
   background: rgba(250,251,253,.72);
   -webkit-backdrop-filter: saturate(180%) blur(14px);
   backdrop-filter: saturate(180%) blur(14px);
-  border-bottom: 1px solid rgba(227,233,240,.9);
+  border: 1px solid rgba(227,233,240,.9); border-radius: 12px;
   box-shadow: 0 1px 2px rgba(11,31,51,.03), 0 8px 24px -14px rgba(11,31,51,.18);
-  pointer-events: none;
-  transition: left .22s cubic-bezier(.4,0,.2,1), padding-left .22s cubic-bezier(.4,0,.2,1);
 }
-/* 折叠态：回到视口左缘，并让出左上角「展开」按钮的位置 */
+/* 侧边栏折叠时，让出左上角「展开」按钮的位置 */
 [data-testid="stAppViewContainer"]:has([data-testid="stSidebar"][aria-expanded="false"]) .app-topbar {
-  left: 0; padding-left: 62px;
+  padding-left: 64px;
 }
 .app-topbar .tb-brand { display: inline-flex; align-items: center; gap: 9px; flex: 0 0 auto; }
 .app-topbar .tb-logo {

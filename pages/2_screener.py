@@ -274,7 +274,7 @@ if rows:
             return ""
         sel_df = df.style.map(_pct_color, subset=["change_pct"])
     sel = st.dataframe(
-        sel_df, use_container_width=True, height=480,
+        sel_df, use_container_width=True, height=480, row_height=30,
         on_select="rerun", selection_mode="single-row", key="scan_result_table",
         column_config=col_cfg or None, hide_index=True,
     )

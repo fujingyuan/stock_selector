@@ -32,7 +32,25 @@ with tab_scan:
         rows = store.latest_scan(chosen["strategy"], limit=100000)
         st.caption(f"最近一次扫描时间: {rows[0]['created_at'] if rows else '—'}")
         df = pd.DataFrame(rows)
-        st.dataframe(df, use_container_width=True, height=460)
+        from streamlit.column_config import NumberColumn, TextColumn
+
+        df = df.drop(columns=[c for c in ("id",) if c in df.columns])
+        col_cfg = {
+            "market_code": TextColumn("代码", width="small"),
+            "stock_code": TextColumn("股票代码", width="small"),
+            "stock_name": TextColumn("名称", width="small"),
+            "close": NumberColumn("收盘价", format="%.2f"),
+            "strategy": TextColumn("策略", width="medium"),
+            "created_at": TextColumn("扫描时间", width="medium"),
+            "detail": TextColumn("指标详情", width="large"),
+        }
+        col_cfg = {k: v for k, v in col_cfg.items() if k in df.columns}
+        st.dataframe(
+            df, width="stretch", height=460, row_height=30,
+            hide_index=True, column_config=col_cfg or None,
+            column_order=[c for c in ("created_at", "strategy", "market_code",
+                                      "stock_name", "close", "detail") if c in df.columns],
+        )
         st.download_button(
             "下载选股结果 CSV",
             df.to_csv(index=False).encode("utf-8-sig"),

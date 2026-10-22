@@ -237,7 +237,7 @@ if run:
                 cfg[c] = NumberColumn(c, format=_num_cols[c])
             elif c in _txt_cols:
                 cfg[c] = TextColumn(c, width="small")
-        st.dataframe(trades, use_container_width=True, height=380,
+        st.dataframe(trades, use_container_width=True, height=380, row_height=30,
                      hide_index=True, column_config=cfg or None)
         st.download_button(
             "下载交易明细 CSV",
@@ -303,9 +303,19 @@ with st.expander("展开参数寻优", expanded=False):
                 progress=lambda i, t: bar.progress(i / t, text=f"寻优中 {i}/{t}..."),
             )
             bar.empty()
+            from streamlit.column_config import NumberColumn
+
+            _opt_cfg = {
+                "累计收益率%": NumberColumn("累计收益率%", format="%.2f"),
+                "年化收益率%": NumberColumn("年化收益率%", format="%.2f"),
+                "交易次数": NumberColumn("交易次数", format="%.0f"),
+                "赢利交易比例%": NumberColumn("赢利交易比例%", format="%.2f"),
+                "净赢利": NumberColumn("净赢利", format="%.0f"),
+            }
             st.dataframe(
-                df_opt.style.format(precision=4, na_rep="—"),
-                use_container_width=True, height=360)
+                df_opt, width="stretch", height=360, hide_index=True,
+                column_config={k: v for k, v in _opt_cfg.items() if k in df_opt.columns} or None,
+            )
             if not df_opt.empty:
                 st.download_button(
                     "下载寻优结果 CSV",
