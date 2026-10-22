@@ -1,0 +1,10 @@
+hikyuu==2.5.2
+streamlit>=1.36.0
+plotly>=5.20
+jinja2>=3.0
+pandas>=2.0.0
+numpy>=1.26.4,<2.0
+h5py>=3.10
+pytdx>=1.72
+tables>=3.9
+zstandard>=0.22
